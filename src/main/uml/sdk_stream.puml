@@ -1,0 +1,21 @@
+@startuml
+autonumber
+
+
+ui -> demoService: get form details per country
+demoService -> demoService:  feature store
+demoService --> ui: return json with list of fields and conditionality
+adminUi -> demoService: addQuestion
+demoService -> demoService :
+sdk -> projectService: subscribe to sse stream
+alt connection drop
+    sdk -> projectService: reconnect
+end
+
+projectService -> sdk: stream
+
+alt project servic goes down and comes up
+    sdk -> projectService: reconnect
+end
+
+@enduml

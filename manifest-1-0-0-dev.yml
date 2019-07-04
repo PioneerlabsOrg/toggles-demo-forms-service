@@ -1,0 +1,6 @@
+applications:
+- name: toggles-demo-service
+  path: target/toggles-demo-service-0.0.2-SNAPSHOT.jar
+  buildpack: https://github.com/cloudfoundry/java-buildpack.git
+  env:
+     JBP_CONFIG_DEBUG: '{enabled: true}'

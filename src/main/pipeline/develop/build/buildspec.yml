@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - sudo apt update
+      - cat /etc/*release
+  build:
+    commands:
+      - echo Build started on  `date`
+      - mvn clean install -s settings.xml
+  post_build:
+    commands:
+      - echo Build started on  `date`
+      - zip target/toggles-demo-service-0.0.1-SNAPSHOT.zip target/toggles-demo-service-0.0.1-SNAPSHOT.jar
+artifacts:
+  files:
+    - target/toggles-demo-service-0.0.1-SNAPSHOT.zip

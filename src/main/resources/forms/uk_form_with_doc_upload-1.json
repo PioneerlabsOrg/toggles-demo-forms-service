@@ -1,0 +1,142 @@
+{
+  "schema": {
+    "definitions": {
+      "Gender": {
+        "title": "Gender",
+        "type": "string",
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [
+              "male"
+            ],
+            "title": "Male"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "female"
+            ],
+            "title": "Female"
+          }
+        ]
+      },
+      "Nationality": {
+        "title": "Nationality",
+        "type": "string",
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [
+              "uk"
+            ],
+            "title": "British"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "ca"
+            ],
+            "title": "Canadian"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "fr"
+            ],
+            "title": "French"
+          }
+        ]
+      },
+      "ProofOfIdentity": {
+        "title": "ProofOfIdentity",
+        "type": "string",
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [
+              "passport"
+            ],
+            "title": "Passport"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "identitycard"
+            ],
+            "title": "National Identity Card"
+          }
+        ]
+      }
+    },
+    "title": "Know your customer review",
+    "type": "object",
+    "required": [
+      "firstName",
+      "lastName"
+    ],
+    "properties": {
+      "firstName": {
+        "type": "string",
+        "title": "First name"
+      },
+      "lastName": {
+        "type": "string",
+        "title": "Last name"
+      },
+      "gender": {
+        "$ref": "#/definitions/Gender",
+        "title": "Gender"
+      },
+      "postcode": {
+        "type": "string",
+        "title": "Postcode"
+      },
+      "streetAddress": {
+        "type": "string",
+        "title": "Street Address"
+      },
+      "city": {
+        "type": "string",
+        "title": "City",
+        "minLength": 10
+      },
+      "nationality": {
+        "$ref": "#/definitions/Nationality",
+        "title": "Nationality"
+      },
+      "identityVerification": {
+        "type": "object",
+        "title": "Identity Verification",
+        "properties": {
+          "proofOfIdentity": {
+            "$ref": "#/definitions/ProofOfIdentity",
+            "title": "Proof Of Identity"
+          },
+          "identificationNumber": {
+            "type": "string",
+            "title": "Identification Number"
+          },
+          "file": {
+            "type": "string",
+            "format": "data-url",
+            "title": "Document Upload"
+          }
+        }
+      }
+    }
+  },
+  "uiSchema": {
+    "identityVerification": {
+      "file": {
+        "ui:description": "Please upload your scanned copy of your identification below"
+      }
+    },
+    "postcode": {
+      "ui:widget": "text"
+    }
+  },
+  "customData": {
+    "submittedMessage": "Thank you for your submission. You are now approved"
+  } 
+}

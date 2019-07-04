@@ -1,0 +1,10 @@
+== Projects
+
+ 
+curl request:
+ 
+include::{snippets}/projects/curl-request.adoc[]
+ 
+HTTP response:
+ 
+include::{snippets}/projects/http-response.adoc[]

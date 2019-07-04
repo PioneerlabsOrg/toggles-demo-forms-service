@@ -1,0 +1,9 @@
+applications:
+- name: toggles-demo-service
+  host: sit-toggles-demo-service
+  instances: 1
+  env:
+    spring_profiles_active: "sit"
+  docker:
+      image: filippo22/toggles-demo-service:latest
+      username: filippo22
