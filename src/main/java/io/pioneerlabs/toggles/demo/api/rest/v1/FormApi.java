@@ -1,13 +1,13 @@
 package io.pioneerlabs.toggles.demo.api.rest.v1;
 
 import io.pioneerlabs.toggles.demo.api.rest.v1.forms.FormFactory;
-import io.pioneerlabs.toggles.demo.api.rest.v1.toggles.FeatureAware;
 import io.pioneerlabs.toggles.demo.domain.Review;
 import io.pioneerlabs.toggles.sdks.java.api.TogglesClient;
 import io.pioneerlabs.toggles.sdks.java.domain.BusinessObject;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,7 +25,7 @@ import java.util.UUID;
 @RequestMapping("/v1/forms")
 @Slf4j
 @Data
-public class FormApi implements FeatureAware {
+public class FormApi {
 
 
     private final TogglesClient togglesClient;
@@ -53,36 +53,33 @@ public class FormApi implements FeatureAware {
                 () -> review);
 
 
-
         return ResponseEntity
                 .ok()
-                .body(formFactory.createForm(businessObject).toJSONString());
+                .body(formFactory.createForm(businessObject)
+                        .toJSONString());
 
     }
 
-    @Override
+    @GetMapping(path = "{cin}/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<ServerSentEvent<String>> subscribe(
             @PathVariable("cin") String cin,
             @RequestHeader(name = "last-event-id", required = false) String lastEventId) {
 
         return Flux.create(fluxSink -> {
             togglesClient.onChange(e -> {
-                log.info("fluxSink onChange {}", e);
+                log.info("fluxSink onChange {}",
+                        e);
                 fluxSink.next(this.formFactory.createForm(this.businessObject));
             });
         })
                 .log()
-                .map(sequence -> ServerSentEvent.<String> builder()
-                        .id(UUID.randomUUID().toString())
+                .map(sequence -> ServerSentEvent.<String>builder()
+                        .id(UUID.randomUUID()
+                                .toString())
                         .event("form-event")
                         .data(String.valueOf(sequence))
                         .build());
     }
-
-
-
-
-
 
 
 }

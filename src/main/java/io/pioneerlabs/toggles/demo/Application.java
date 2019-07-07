@@ -22,15 +22,14 @@ public class Application {
     @Bean
     public TogglesClient togglesClient(){
         TogglesCredentials togglesCredentials = TogglesCredentials.builder()
-                .accessKey("someAccessKey")
-                .secretKey("someSecretkey")
+                .accessKey("gkz99hzzj4D-WTDYQVenFJi2")
+                .secretKey("quhLeTpoxC_kRBGX@mm!s2JM")
                 .build();
 
-        String[] featureKeys = {"postcode-lookup","doc-upload","quality-check"};
         TogglesClient togglesClient = TogglesClient.builder()
                 .sdkKey("sdk-e26cfe22-2279-42c6-8b66-ac764f97128c")
                 .groupIdProjectKey("dfd42104-a20f-4b46-8e4d-01cd7f206b2c")
-                .featureKeys(featureKeys)
+                .featureKeys(Features.getFeatures())
                 .togglesCredentials(togglesCredentials)
                 .subscribe()
                 .build();

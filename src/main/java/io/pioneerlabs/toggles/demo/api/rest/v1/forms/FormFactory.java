@@ -14,22 +14,15 @@ public class FormFactory {
     @Autowired
     private  final TogglesClient togglesClient;
 
-    private final FormControllerV0 formControllerV0;
-    private final FormControllerV1 formControllerV1;
-    private final FormControllerV2 formControllerV2;
-    private final FormControllerV3 formControllerV3;
+    private final FormService formService;
 
 
 
-    public FormFactory(TogglesClient togglesClient, FormControllerV0 formControllerV0, FormControllerV1 formControllerV1, FormControllerV2 formControllerV2, FormControllerV3 formControllerV3) {
+    public FormFactory(TogglesClient togglesClient, FormService formService) {
         this.togglesClient = togglesClient;
-        this.formControllerV0 = formControllerV0;
-        this.formControllerV1 = formControllerV1;
-        this.formControllerV2 = formControllerV2;
-        this.formControllerV3 = formControllerV3;
+        this.formService = formService;
+
     }
-
-
 
 
     public JSONObject createForm(BusinessObject businessObject) {
@@ -39,16 +32,16 @@ public class FormFactory {
         boolean isDocUploadEnabled = togglesClient.isFeatureOn("doc-upload", businessObject);
         boolean isQualityCheckEnabled = togglesClient.isFeatureOn("quality-check", businessObject);
 
-
         if(isPostCodeLookUpEnabled) {
-            return formControllerV1.createJsonForm();
+            formService.enablePostCodeLookUp();
         } else if(isDocUploadEnabled) {
-            return formControllerV2.createJsonForm();
+            formService.enableDocUpload();
         } else if(isQualityCheckEnabled) {
-            return formControllerV3.createJsonForm();
-        } else {
-            return formControllerV0.createJsonForm();
+            formService.enableQualityCheck();
         }
+
+        return formService.getJsonObject();
+
 
     }
 
