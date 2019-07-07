@@ -18,6 +18,20 @@ server:
 spring:
   profiles: test
 
+  toggles:
+    credentials:
+      accessKey: "gkz99hzzj4D-WTDYQVenFJi2"
+      secretKey: "quhLeTpoxC_kRBGX@mm!s2JM"
+      sdkKey: "sdk-e26cfe22-2279-42c6-8b66-ac764f97128c"
+      groupIdProjectKey: "dfd42104-a20f-4b46-8e4d-01cd7f206b2c"
+      featureKeys:
+          - POSTCODE_LOOKUP
+          - DOC_UPLOAD
+          - QUALITY_CHECK
+
+
+    }
+
 
 
 ---

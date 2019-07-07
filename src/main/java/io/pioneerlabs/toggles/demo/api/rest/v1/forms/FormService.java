@@ -1,6 +1,7 @@
 package io.pioneerlabs.toggles.demo.api.rest.v1.forms;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import io.pioneerlabs.toggles.demo.Features;
 import io.pioneerlabs.toggles.demo.utils.JsonUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -25,14 +26,12 @@ public class FormService {
         this.jsonObject = createForm();
     }
 
-
     public void enablePostCodeLookUp() {
         if(Optional.ofNullable(jsonObject).isPresent()) {
             jsonObject.put("postcode",
                     "PostcodeLookup");
         }
     }
-
 
     public void enableDocUpload() {
         if(Optional.ofNullable(jsonObject).isPresent()) {
@@ -47,7 +46,6 @@ public class FormService {
         }
 
     }
-
     public void enableQualityCheck() {
         if(Optional.ofNullable(jsonObject).isPresent()) {
             jsonObject.put("submittedMessage",

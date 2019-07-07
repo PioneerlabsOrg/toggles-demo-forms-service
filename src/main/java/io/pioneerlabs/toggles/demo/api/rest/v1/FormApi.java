@@ -1,6 +1,5 @@
 package io.pioneerlabs.toggles.demo.api.rest.v1;
 
-import io.pioneerlabs.toggles.demo.api.rest.v1.forms.FormFactory;
 import io.pioneerlabs.toggles.demo.domain.Review;
 import io.pioneerlabs.toggles.sdks.java.api.TogglesClient;
 import io.pioneerlabs.toggles.sdks.java.domain.BusinessObject;
@@ -29,13 +28,13 @@ public class FormApi {
 
 
     private final TogglesClient togglesClient;
-    private final FormFactory formFactory;
+    private final FeaturesService featuresService;
     private BusinessObject businessObject;
 
     @Autowired
-    public FormApi(TogglesClient togglesClient, FormFactory formFactory) {
+    public FormApi(TogglesClient togglesClient, FeaturesService formService) {
         this.togglesClient = togglesClient;
-        this.formFactory = formFactory;
+        this.featuresService = formService;
     }
 
     @GetMapping("/country/{country}/{cin}")
@@ -55,7 +54,7 @@ public class FormApi {
 
         return ResponseEntity
                 .ok()
-                .body(formFactory.createForm(businessObject)
+                .body(featuresService.getFormFeature(this.businessObject)
                         .toJSONString());
 
     }
@@ -69,7 +68,7 @@ public class FormApi {
             togglesClient.onChange(e -> {
                 log.info("fluxSink onChange {}",
                         e);
-                fluxSink.next(this.formFactory.createForm(this.businessObject));
+                fluxSink.next(this.featuresService.getFormFeature(this.businessObject));
             });
         })
                 .log()
