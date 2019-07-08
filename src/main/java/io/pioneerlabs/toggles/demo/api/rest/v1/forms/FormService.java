@@ -3,6 +3,7 @@ package io.pioneerlabs.toggles.demo.api.rest.v1.forms;
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.pioneerlabs.toggles.demo.Features;
 import io.pioneerlabs.toggles.demo.utils.JsonUtils;
+import io.pioneerlabs.toggles.sdks.java.domain.BusinessObject;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
@@ -26,14 +27,23 @@ public class FormService {
         this.jsonObject = createForm();
     }
 
-    public void enablePostCodeLookUp() {
+    public JSONObject getForm(BusinessObject businessObject){
+        this.enableDocUpload(businessObject);
+        this.enablePostCodeLookUp(businessObject);
+        this.enableQualityCheck(businessObject);
+        return this.getJsonObject();
+    }
+
+    @TogglesFeature(featureName=Features.POSTCODE_LOOKUP)
+    public void enablePostCodeLookUp(@TogglesBusinessObject BusinessObject businessObject) {
         if(Optional.ofNullable(jsonObject).isPresent()) {
             jsonObject.put("postcode",
                     "PostcodeLookup");
         }
     }
 
-    public void enableDocUpload() {
+    @TogglesFeature(featureName=Features.DOC_UPLOAD)
+    public void enableDocUpload(@TogglesBusinessObject BusinessObject businessObject) {
         if(Optional.ofNullable(jsonObject).isPresent()) {
             jsonObject.put("file",
                     "");
@@ -46,7 +56,8 @@ public class FormService {
         }
 
     }
-    public void enableQualityCheck() {
+    @TogglesFeature(featureName=Features.QUALITY_CHECK)
+    public void enableQualityCheck(@TogglesBusinessObject BusinessObject businessObject) {
         if(Optional.ofNullable(jsonObject).isPresent()) {
             jsonObject.put("submittedMessage",
                     "We are now carrying out a further review of your submitted data and will contact you if we have any further questions.");
